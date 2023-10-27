@@ -30,7 +30,7 @@ RSpec.describe Cell do
     end
   end
 
-  describe "#place_ship" do
+  describe "place_ship" do
     it "places a ship in the cell" do
       cell = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
@@ -46,7 +46,7 @@ RSpec.describe Cell do
     end
   end
 
-  describe "#fired_upon?" do
+  describe "fired_upon?" do
     it "returns false when a cell has not been fired upon" do
       cell = Cell.new("B4")
       expect(cell.fired_upon?).to be false
