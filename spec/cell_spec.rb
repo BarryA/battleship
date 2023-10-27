@@ -99,7 +99,7 @@ RSpec.describe Cell do
       cell.place_ship(cruiser)
       cruiser.hit
       cruiser.hit
-      
+
       expect(cell.render).to eq("X")
     end
   end
