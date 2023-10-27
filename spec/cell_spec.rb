@@ -67,7 +67,7 @@ RSpec.describe Cell do
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
       cell.fire_upon
-      binding.pry
+
       expect(cell.fired_upon?).to be true
     end
   end
@@ -84,7 +84,8 @@ RSpec.describe Cell do
       cell = Cell.new("C3")
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
-      expect(cell.render(true)).to eq("S")
+
+      expect(cell.render).to eq("S")
     end
 
     it 'updates the cell to "H" after firing upon' do
@@ -100,8 +101,9 @@ RSpec.describe Cell do
       cell = Cell.new("C3")
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
-      cruiser.hit
-      cruiser.hit
+      cell.fire_upon
+      cell.fire_upon
+      cell.fire_upon
 
       expect(cell.render).to eq("X")
     end
