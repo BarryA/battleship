@@ -1,5 +1,6 @@
 require './lib/ship'
 require './lib/cell'
+require 'pry'
 
 RSpec.describe Cell do
   
@@ -15,17 +16,20 @@ RSpec.describe Cell do
     end
 
     it "has a coordinate" do
-      cell = Cell new("B4")
+      cell = Cell.new("B4")
+
       expect(cell.coordinate).to eq("B4")
     end
 
     it "initializes empty" do
       cell = Cell.new("B4")
+
       expect(cell.empty?).to be true
     end
 
     it 'creates a cell with a "."' do
       cell = Cell.new("B4")
+
       expect(cell.render).to eq(".")
     end
   end
@@ -35,6 +39,7 @@ RSpec.describe Cell do
       cell = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
+
       expect(cell.ship).to eq(cruiser)
     end
 
@@ -42,6 +47,7 @@ RSpec.describe Cell do
       cell = Cell.new("B4")
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
+
       expect(cell.empty?).to be false
     end
   end
@@ -49,6 +55,7 @@ RSpec.describe Cell do
   describe "fired_upon?" do
     it "returns false when a cell has not been fired upon" do
       cell = Cell.new("B4")
+
       expect(cell.fired_upon?).to be false
     end
 
@@ -57,6 +64,7 @@ RSpec.describe Cell do
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
       cell.fire_upon
+
       expect(cell.fired_upon?).to be true
     end
   end
@@ -65,6 +73,7 @@ RSpec.describe Cell do
     it 'updates the cell status to "M" after firing upon' do
       cell = Cell.new("B4")
       cell.fire_upon
+
       expect(cell.render).to eq("M")
     end
 
@@ -80,6 +89,7 @@ RSpec.describe Cell do
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
       cell.fire_upon
+
       expect(cell.render).to eq("H")
     end
 
@@ -89,6 +99,7 @@ RSpec.describe Cell do
       cell.place_ship(cruiser)
       cruiser.hit
       cruiser.hit
+      
       expect(cell.render).to eq("X")
     end
   end
