@@ -7,11 +7,13 @@ RSpec.describe Cell do
   describe "initialize" do
     it "can initialize" do
       cell = Cell.new("B4")
+
       expect(cell).to be_an_instance_of(Cell)
     end
 
     it "has a name" do
       cell = Cell.new("B4")
+
       expect(cell.name).to eq("B4")
     end
 
@@ -56,6 +58,7 @@ RSpec.describe Cell do
     it "returns false when a cell has not been fired upon" do
       cell = Cell.new("B4")
 
+
       expect(cell.fired_upon?).to be false
     end
 
@@ -64,7 +67,7 @@ RSpec.describe Cell do
       cruiser = Ship.new("Cruiser", 3)
       cell.place_ship(cruiser)
       cell.fire_upon
-
+      binding.pry
       expect(cell.fired_upon?).to be true
     end
   end
