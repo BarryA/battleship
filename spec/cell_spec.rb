@@ -59,37 +59,37 @@ RSpec.describe Cell do
       cell.fire_upon
       expect(cell.fired_upon?).to be true
     end
+  end
 
-    describe "render" do
-      it 'updates the cell status to "M" after firing upon' do
-        cell = Cell.new("B4")
-        cell.fire_upon
-        expect(cell.render).to eq("M")
-      end
+  describe "render" do
+    it 'updates the cell status to "M" after firing upon' do
+      cell = Cell.new("B4")
+      cell.fire_upon
+      expect(cell.render).to eq("M")
+    end
 
-      it 'creates a cell with "S" when ship is present' do
-        cell = Cell.new("C3")
-        cruiser = Ship.new("Cruiser", 3)
-        cell.place_ship(cruiser)
-        expect(cell.render(true)).to eq("S")
-      end
+    it 'creates a cell with "S" when ship is present' do
+      cell = Cell.new("C3")
+      cruiser = Ship.new("Cruiser", 3)
+      cell.place_ship(cruiser)
+      expect(cell.render(true)).to eq("S")
+    end
 
-      it 'updates the cell to "H" after firing upon' do
-        cell = Cell.new("C3")
-        cruiser = Ship.new("Cruiser", 3)
-        cell.place_ship(cruiser)
-        cell.fire_upon
-        expect(cell.render).to eq("H")
-      end
+    it 'updates the cell to "H" after firing upon' do
+      cell = Cell.new("C3")
+      cruiser = Ship.new("Cruiser", 3)
+      cell.place_ship(cruiser)
+      cell.fire_upon
+      expect(cell.render).to eq("H")
+    end
 
-      it 'updates the cell to "X" after the ship is sunk' do
-        cell = Cell.new("C3")
-        cruiser = Ship.new("Cruiser", 3)
-        cell.place_ship(cruiser)
-        cruiser.hit
-        cruiser.hit
-        expect(cell.render).to eq("X")
-      end
+    it 'updates the cell to "X" after the ship is sunk' do
+      cell = Cell.new("C3")
+      cruiser = Ship.new("Cruiser", 3)
+      cell.place_ship(cruiser)
+      cruiser.hit
+      cruiser.hit
+      expect(cell.render).to eq("X")
     end
   end
 end
