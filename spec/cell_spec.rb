@@ -15,7 +15,7 @@ RSpec.describe Cell do
     expect(cell.name).to eq("B4")
   end
 
-  it "has a coordiante" do
+  it "has a coordinate" do
     cell = Cell.new("B4")
 
     expect(cell.coordinate).to eq("B4")
