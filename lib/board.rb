@@ -19,13 +19,7 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    valid_cell_keys = {
-      "A1" => true, "A2" => true, "A3" => true, "A4" => true,
-      "B1" => true, "B2" => true, "B3" => true, "B4" => true,
-      "C1" => true, "C2" => true, "C3" => true, "C4"=> true,
-      "D1" => true, "D2" => true, "D3"=> true, "D4"=> true
-    }
-    valid_cell_keys.key?(coordinate)
+    @cells.key?(coordinate)
   end
 
   def valid_placement?
