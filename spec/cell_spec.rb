@@ -80,12 +80,14 @@ RSpec.describe Cell do
       expect(cell.render).to eq("M")
     end
 
-    it 'creates a cell with "S" when ship is present' do
+    it 'can utilize the optional argument and render "S"' do
       cell = Cell.new("C3")
+      cell_2 = Cell.new("C4")
+      
       cruiser = Ship.new("Cruiser", 3)
-      cell.place_ship(cruiser)
+      cell_2.place_ship(cruiser)
 
-      expect(cell.render).to eq("S")
+      expect(cell_2.render(true)).to eq("S")
     end
 
     it 'updates the cell to "H" after firing upon' do

@@ -47,6 +47,6 @@ RSpec.describe Ship do
     cruiser.hit
 
     expect(cruiser.health).to eq(0)
-    expect(cruiser.sunk?).to be false
+    expect(cruiser.sunk?).to be true
   end
 end
