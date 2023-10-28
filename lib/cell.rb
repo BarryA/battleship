@@ -20,7 +20,7 @@ class Cell
 
   def fire_upon
     @fired_upon = true
-    if !empty?
+    if empty? == false
       @ship.hit
     end
   end
@@ -29,8 +29,8 @@ class Cell
     @fired_upon
   end
 
-  def render
-    if fired_upon == false && empty? == false
+  def render(fog_of_war = false)
+    if fog_of_war == true && empty? == false
       @render = "S"
     elsif fired_upon == true && empty? == true
       @render = "M"
