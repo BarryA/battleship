@@ -19,7 +19,8 @@ class Board
       end
     end
   end
-
+  
+  # checks if there is a cell key that is the same as given coordinate
   def valid_coordinate?(coordinate)
     @cells.key?(coordinate)
   end
@@ -61,6 +62,8 @@ class Board
     if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
       return "Please select coordinates that do not overlap."
     end
+
+  # calls .place_ship method on given coordinate to populate ship object inside of the cell
     coordinates.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
