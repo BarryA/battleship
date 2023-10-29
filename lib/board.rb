@@ -1,5 +1,8 @@
 require 'pry'
 require './lib/cell.rb'
+require './lib/ship.rb'
+require 'enumerator'
+
 class Board
 
   attr_reader :cells
@@ -19,16 +22,48 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    valid_cell_keys = {
-      "A1" => true, "A2" => true, "A3" => true, "A4" => true,
-      "B1" => true, "B2" => true, "B3" => true, "B4" => true,
-      "C1" => true, "C2" => true, "C3" => true, "C4"=> true,
-      "D1" => true, "D2" => true, "D3"=> true, "D4"=> true
-    }
-    valid_cell_keys.key?(coordinate)
+    @cells.key?(coordinate)
   end
 
-  def valid_placement?
+  def valid_placement?(ship, coordinates)
+    # check if ship length is same as coordinates length
+    return false unless coordinates.length == ship.length
+    # return false if no coordinates provided
+    return false if coordinates.empty?
+    # return false if coordinates are occupied.
+    if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
+      return false
+    end
 
+    # iterates over coodinates and separates into rows and columns. Separates coordinates into two parts and 
+    # assigns ASCII values to the letters. This is necessary for the next part to verify if the ASCII value
+    # numbers are consecutive.
+    rows = coordinates.map { |coordinate| coordinate[0].ord }
+    columns = coordinates.map { |coordinate| coordinate[1].to_i }
+
+    # row.uniq.length removes potential duplicate values and checks if in the same row ["A1", "A2", "A3"]
+    # would return [65, 65, 65] => .uniq makes it [65] while ["A1", "B1", "C1"] would return [65, 66, 67]
+    # If it returns with an array length of 1, it is in the same row. 
+    # columns == (columns.min..columns.max).to_a creates a range from the columns array. "to_a" is needed
+    # to convert the range into an array to compare against the columns array in the .map function above. 
+    # if there is a gap or the numbers are in the wrong order it will return false. 
+
+    horizontal_consecutive = (rows.uniq.length == 1) && (columns == (columns.min..columns.max).to_a)
+    vertical_consecutive = (columns.uniq.length == 1) && (rows == (rows.min..rows.max).to_a)
+
+    #if neither horizontal or vertical checks are true, method is implicitly true, otherwise false
+    horizontal_consecutive || vertical_consecutive
   end
+
+  # seperates out coordinates and utilizes the .place_ship method from cell class
+  # to occupy the cell with a ship
+  def place(ship, coordinates)
+    if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
+      return "Please select coordinates that do not overlap."
+    end
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
+
 end
