@@ -31,6 +31,8 @@ class Board
     #return false if no coordinates provided
     return false if coordinates.empty?
 
+    return false if coordinates.length != coordinates.uniq.length
+
     # iterates over coodinates and separates into rows and columns. Separates coordinates into two parts and 
     # assigns ASCII values to the letters. This is necessary for the next part to verify if the ASCII value
     # numbers are consecutive.
@@ -49,6 +51,14 @@ class Board
 
     #if neither horizontal or vertical checks are true, method is implicitly true, otherwise false
     horizontal_consecutive || vertical_consecutive
+  end
+
+  # seperates out coordinates and utilizes the .place_ship method from cell class
+  # to occupy the cell with a ship
+  def place(ship, ship_coordinates)
+    ship_coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
   end
 
 end

@@ -52,4 +52,32 @@ RSpec.describe Board do
       expect(board.valid_placement?(submarine, ["A1", "B1"])).to be true
     end
   end
+
+    
+  describe "place ship" do
+    it "can place a ship on the board" do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+
+      board.place(cruiser, ["A1", "A2", "A3"])
+
+      expect(board.cells["A1"].ship).to eq(cruiser)
+      expect(board.cells["A2"].ship).to eq(cruiser)
+      expect(board.cells["A3"].ship).to eq(cruiser)
+    end
+
+    it "will not place ships on top of each other" do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      submarine = Ship.new("Submarine", 2)
+
+      board.place(cruiser, ["A1", "A2", "A3"])
+      board.place(submarine, ["A1", "B1"])
+
+      expect(board.cells["A1"].ship).to eq(cruiser)
+      expect(board.cells["A2"].ship).to eq(cruiser)
+      expect(board.cells["A3"].ship).to eq(cruiser)
+    end
+  end
 end
