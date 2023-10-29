@@ -26,12 +26,14 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    #check if ship length is same as coordinates length
+    # check if ship length is same as coordinates length
     return false unless coordinates.length == ship.length
-    #return false if no coordinates provided
+    # return false if no coordinates provided
     return false if coordinates.empty?
-
-    return false if coordinates.length != coordinates.uniq.length
+    # return false if coordinates are occupied.
+    if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
+      return false
+    end
 
     # iterates over coodinates and separates into rows and columns. Separates coordinates into two parts and 
     # assigns ASCII values to the letters. This is necessary for the next part to verify if the ASCII value
@@ -55,8 +57,11 @@ class Board
 
   # seperates out coordinates and utilizes the .place_ship method from cell class
   # to occupy the cell with a ship
-  def place(ship, ship_coordinates)
-    ship_coordinates.each do |coordinate|
+  def place(ship, coordinates)
+    if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
+      return "Please select coordinates that do not overlap."
+    end
+    coordinates.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
   end
