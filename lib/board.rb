@@ -1,6 +1,7 @@
 require 'pry'
 require './lib/cell.rb'
 require './lib/ship.rb'
+require 'enumerator'
 
 class Board
 
@@ -24,11 +25,30 @@ class Board
     @cells.key?(coordinate)
   end
 
-  def valid_placement?(ship, coordinate_array)
-    coordinate_array = []
-    if coordinate_array.length < ship.length || coordinate_array.length < @ship.length
-      return false
-    else return true
-    end
+  def valid_placement?(ship, coordinates)
+    #check if ship length is same as coordinates length
+    return false unless coordinates.length == ship.length
+    #return false if no coordinates provided
+    return false if coordinates.empty?
+
+    # iterates over coodinates and separates into rows and columns. Separates coordinates into two parts and 
+    # assigns ASCII values to the letters. This is necessary for the next part to verify if the ASCII value
+    # numbers are consecutive.
+    rows = coordinates.map { |coordinate| coordinate[0].ord }
+    columns = coordinates.map { |coordinate| coordinate[1].to_i }
+
+    # row.uniq.length removes potential duplicate values and checks if in the same row ["A1", "A2", "A3"]
+    # would return [65, 65, 65] => .uniq makes it [65] while ["A1", "B1", "C1"] would return [65, 66, 67]
+    # If it returns with an array length of 1, it is in the same row. 
+    # columns == (columns.min..columns.max).to_a creates a range from the columns array. "to_a" is needed
+    # to convert the range into an array to compare against the columns array in the .map function above. 
+    # if there is a gap or the numbers are in the wrong order it will return false. 
+
+    horizontal_consecutive = (rows.uniq.length == 1) && (columns == (columns.min..columns.max).to_a)
+    vertical_consecutive = (columns.uniq.length == 1) && (rows == (rows.min..rows.max).to_a)
+
+    #if neither horizontal or vertical checks are true, method is implicitly true, otherwise false
+    horizontal_consecutive || vertical_consecutive
   end
+
 end
