@@ -1,7 +1,6 @@
 require 'pry'
 require './lib/cell.rb'
 require './lib/ship.rb'
-require 'enumerator'
 
 class Board
 
@@ -56,7 +55,8 @@ class Board
   end
 
   # seperates out coordinates and utilizes the .place_ship method from cell class
-  # to occupy the cell with a ship
+  # to occupy the cell with a ship. Stole "coordinates.any" method from above to
+  # validate if cells are occupied.
   def place(ship, coordinates)
     if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
       return "Please select coordinates that do not overlap."
@@ -66,4 +66,10 @@ class Board
     end
   end
 
+  def render(ship_visability = false)
+
+
+  end
+
+  binding.pry
 end
