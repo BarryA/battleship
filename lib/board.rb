@@ -70,8 +70,7 @@ class Board
   end
 
   def render(fog_of_war = false)
-    header = "  1 2 3 4 \n"
-    puts header
+    board_result = "  1 2 3 4 \n"
 
     ('A'..'D').each do |row|
       row_string = "#{row} "
@@ -79,8 +78,9 @@ class Board
         cell_key = "#{row}#{column}"
         row_string += "#{@cells[cell_key].render(fog_of_war)} "
       end
-      puts row_string.strip
+      board_result += row_string.strip + " \n"
     end
+    puts board_result
+    board_result
   end
-  binding.pry
 end

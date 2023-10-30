@@ -103,7 +103,7 @@ RSpec.describe Board do
       expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     end
 
-    xit "can render a board with ships" do
+    it "can render a board with ships" do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
