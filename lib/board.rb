@@ -1,7 +1,6 @@
 require 'pry'
 require './lib/cell.rb'
 require './lib/ship.rb'
-require 'enumerator'
 
 class Board
 
@@ -20,7 +19,8 @@ class Board
       end
     end
   end
-
+  
+  # checks if there is a cell key that is the same as given coordinate
   def valid_coordinate?(coordinate)
     @cells.key?(coordinate)
   end
@@ -56,14 +56,23 @@ class Board
   end
 
   # seperates out coordinates and utilizes the .place_ship method from cell class
-  # to occupy the cell with a ship
+  # to occupy the cell with a ship. Stole "coordinates.any" method from above to
+  # validate if cells are occupied.
   def place(ship, coordinates)
     if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
       return "Please select coordinates that do not overlap."
     end
+
+  # calls .place_ship method on given coordinate to populate ship object inside of the cell
     coordinates.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
   end
 
+  def render(ship_visability = false)
+
+
+  end
+
+  binding.pry
 end
