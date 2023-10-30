@@ -1,6 +1,10 @@
+require 'pry'
+require './lib/ship'
+
 class Cell
 
   attr_reader :name, :coordinate, :ship, :fired_upon
+  attr_accessor :render
 
   def initialize(cell_name)
     @name = cell_name
@@ -41,7 +45,6 @@ class Cell
     else @render
     end
   end
-
 
 
 end

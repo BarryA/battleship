@@ -20,7 +20,7 @@ class Board
     end
   end
   
-  # checks if there is a cell key that is the same as given coordinate
+    # checks if there is a cell key that is the same as given coordinate
   def valid_coordinate?(coordinate)
     @cells.key?(coordinate)
   end
@@ -52,27 +52,35 @@ class Board
     vertical_consecutive = (columns.uniq.length == 1) && (rows == (rows.min..rows.max).to_a)
 
     #if neither horizontal or vertical checks are true, method is implicitly true, otherwise false
-    horizontal_consecutive || vertical_consecutive
+    horizontal_consecutive || vertical_consecutive 
   end
 
-  # seperates out coordinates and utilizes the .place_ship method from cell class
-  # to occupy the cell with a ship. Stole "coordinates.any" method from above to
-  # validate if cells are occupied.
+    # seperates out coordinates and utilizes the .place_ship method from cell class
+    # to occupy the cell with a ship. Stole "coordinates.any" method from above to
+    # validate if cells are occupied.
   def place(ship, coordinates)
     if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
       return "Please select coordinates that do not overlap."
     end
 
-  # calls .place_ship method on given coordinate to populate ship object inside of the cell
+    # calls .place_ship method on given coordinate to populate ship object inside of the cell
     coordinates.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
   end
 
-  def render(ship_visability = false)
+  def render(fog_of_war = false)
+    board_result = "  1 2 3 4 \n"
 
-
+    ('A'..'D').each do |row|
+      row_string = "#{row} "
+      (1..4).each do |column|
+        cell_key = "#{row}#{column}"
+        row_string += "#{@cells[cell_key].render(fog_of_war)} "
+      end
+      board_result += row_string.strip + " \n"
+    end
+    puts board_result
+    board_result
   end
-
-  binding.pry
 end
