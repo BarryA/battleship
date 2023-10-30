@@ -52,7 +52,7 @@ class Board
     vertical_consecutive = (columns.uniq.length == 1) && (rows == (rows.min..rows.max).to_a)
 
     #if neither horizontal or vertical checks are true, method is implicitly true, otherwise false
-    horizontal_consecutive || vertical_consecutive
+    horizontal_consecutive || vertical_consecutive 
   end
 
     # seperates out coordinates and utilizes the .place_ship method from cell class
@@ -69,22 +69,18 @@ class Board
     end
   end
 
-  def render(fog_of_war = true)
+  def render(fog_of_war = false)
+    header = "  1 2 3 4 \n"
+    puts header
 
-
-
-
-
-    # I want the result to be 
-    #"  1 2 3 4 \n
-    # A . . . . \n
-    # B . . . . \n
-    # C . . . . \n
-    # D . . . . \n"
-    
-    # Each dot has to be linked to a coordinate @cells[coordinate].render(fog_of_war(t/f))
-    # Maybe seperate out rows from the header since it contains no cells
-    # .each?
-
+    ('A'..'D').each do |row|
+      row_string = "#{row} "
+      (1..4).each do |column|
+        cell_key = "#{row}#{column}"
+        row_string += "#{@cells[cell_key].render(fog_of_war)} "
+      end
+      puts row_string.strip
+    end
   end
+  binding.pry
 end
