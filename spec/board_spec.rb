@@ -94,7 +94,7 @@ RSpec.describe Board do
   end
 
   describe "renders the board" do
-    xit "can render an empty board" do
+    it "can render an empty board" do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
