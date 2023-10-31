@@ -5,9 +5,13 @@ class Ship
     @name = ship_name
     @length = length
     @health = length
+    @sunk = nil
   end
 
   def sunk?
+    if @health.zero?
+      @sunk = true
+    end
     @health.zero?
   end
 

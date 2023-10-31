@@ -43,22 +43,88 @@ class Game
     end
   end
 
- 
+  #Handle user input for ship placements .gets.chomp
+  
   def start_game
-    loop do 
-        computer_place_ship
-        display_boards
-        player_place_ship(human_cruiser)
-        player_place_ship(human_submarine)
-        player_shoot(coordinate)
+    #loop do 
+    place_computer_ships
+    place_player_ships   
+    game_loop
+  end
+
+  def place_computer_ships
+    @computer_ships.each do |ship|
+      coordiinates = []
+      until @ai_board.valid_placement?(ship, coordinates)
+        row = ('A'..'D').to_a.sample
+        column = (1..4).to_a.sample
+        orientation = [:horizontal, :vertical].sample
+
+        if orientation == :horizontal
+          coordinates = (column..(column + ship.length - 1)).map { |column_cell| "#{row}#{column_cell}"}
+        else
+          coordinates = (row.ord..(row.ord + ship.length -1)).map { |row_cell| "#{row_cell.chr}#{column}"}
+        end
+      end
+      @computer_board.place_ship(ship, coordinates)
+    end
+    puts "I have laid out my ships on the grid."
+  end
+
+
+  def place_player_ships
+    puts "You now need to lay out your #{@player_ships.length} ships."
+    @player_ship.each do |ship|
+      puts "Place your #{ship.name}. It has a length of is #{ship.length} units:"
+      coordinates = gets.chomp.split
+      until @player_board.valid_placement?(ship, coordinates)
+        puts "Those are invalid coordinates. Please try again:"
+        coordinates = gets.chomp.split
+      end
+      @player_board.place_ship(ship, coordinates)
     end
   end
+
+  def game_loop
+    loop do
+      display_boards
+      player_turn
+      computer_turn
+      
+      if game_over?
+        break
+      end
+    end
+    show_winner
+    main_menu
+  end
+
+  def display_boards
+    puts "Computer's Board:"
+    @computer_board.render
+    puts "Player's Board:"
+    @player_board.render(true)
+  end
+
+  def game_over?
+    @player_ships.all?{ |ship| ship.sunk? } || @computer_ships.all?{ |ship| ship.sunk? }
+  end
+
+  def show_winner
+    if @player_ships.all?{ |ship| ship.sunk? }
+      puts "You sunk my battleships! You win!"
+    else
+      puts "I won! You suck!"
+    end
+  end
+
+
 end
 
 
 
   #Main game loop 
-  #Handle user input for ship placements .gets.chomp
+
   #Handle turn logic for both player and AI
   #Render boards
   #Check for game over conditions
