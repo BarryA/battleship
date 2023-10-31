@@ -7,7 +7,6 @@ class ArtificialPlayer
   
   attr_reader :enemy_board
 
-
   # initialize with its own board, an array of previous shots, and 
   # record the last hit
 
@@ -24,15 +23,17 @@ class ArtificialPlayer
       # target possible coordinates that are not included in previous shots
       # and a valid coordinate
       # .find?
-      target = possible_coordinates.find { |coordinate| }
+      target = possible_coordinates.find { |coordinate| !@previous_shots.include?(coordinate) && @enemy_board.valid_coordinate?(coordinate)}
+      return target if target
     end
+
+    # need to store previous shots in an array to avoid dupliciate shots. 
+    # Needs to shoot randomly at first .select ?  
+    # loop over the board to select a random coordinate unless it
+    # is found in #previous_shots
+
+    
   end
-
-
-  # need to store previous shots in an array to avoid dupliciate shots. 
-  # Needs to shoot randomly at first .select ?
-  # loop over the board to select a random coordinate unless it
-  # is found in #previous_shots
 
 
   def previous_shot_result(coordinate, hit)
