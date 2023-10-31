@@ -19,7 +19,11 @@ class Board
       end
     end
   end
-  
+
+  def empty?(coordinate)
+    @cells[coordinate].ship.nil?
+  end
+
     # checks if there is a cell key that is the same as given coordinate
   def valid_coordinate?(coordinate)
     @cells.key?(coordinate)
@@ -31,7 +35,7 @@ class Board
     # return false if no coordinates provided
     return false if coordinates.empty?
     # return false if coordinates are occupied.
-    if coordinates.any? { |coordinate| !@cells[coordinate].empty?}
+    if coordinates.any? { |coordinate| !@cells[coordinate].ship.nil?}
       return false
     end
 
