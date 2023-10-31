@@ -5,13 +5,13 @@ require 'pry'
 
 class ArtificialPlayer
   
-  attr_reader :enemy_board
+  attr_reader :enemy_player_board
 
   # initialize with its own board, an array of previous shots, and 
   # record the last hit
 
   def initialize(board)
-    @enemy_board = board
+    @enemy_player_board = board
     @previous_shots = []
     @last_hit = nil
   end
