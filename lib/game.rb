@@ -137,7 +137,20 @@ class Game
   end
 
   def computer_turn
+    coordinate = @computer_player.select_coordinate
+    target_cell = @player_board.cells[coordinate]
+    target_cell.fire_upon
 
+    if target_cell.empty?
+      puts "The computer missed!"
+    elsif target_cell.ship.sunk?
+      puts "The computer sunk your #{target_cell.ship.name}!"
+    else
+      puts "The computer got a hit!"
+    end
+
+    hit = !target_cell.empty?
+    @computer_player.previous_shots(coordinate, hit)
   end
 
   #Check for game over conditions
