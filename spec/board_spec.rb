@@ -14,7 +14,7 @@ RSpec.describe Board do
     it "initializes with cells" do
       board = Board.new
 
-      expect(board.cells.length).to eq(16)
+      expect(board.cells.length).to eq(25)
     end
   end
 
@@ -24,8 +24,8 @@ RSpec.describe Board do
 
       expect(board.valid_coordinates?("A1")).to be true
       expect(board.valid_coordinates?("D4")).to be true
-      expect(board.valid_coordinates?("A5")).to be false
-      expect(board.valid_coordinates?("E1")).to be false
+      expect(board.valid_coordinates?("A5")).to be true
+      expect(board.valid_coordinates?("E1")).to be true
       expect(board.valid_coordinates?("A22")).to be false
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe Board do
 
       board.place_ship(cruiser, ["A1", "A2", "A3"])
 
-      expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \nE . . . . \n")
+      expect(board.render).to eq("  1 2 3 4 5\nA . . . . . \nB . . . . . \nC . . . . . \nD . . . . . \nE . . . . . \n")
     end
 
     it "can render a board with ships" do
@@ -109,7 +109,7 @@ RSpec.describe Board do
 
       board.place_ship(cruiser, ["A1", "A2", "A3"])
 
-      expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \nE . . . . \n")
+      expect(board.render(true)).to eq("  1 2 3 4 5\nA S S S . . \nB . . . . . \nC . . . . . \nD . . . . . \nE . . . . . \n")
     end
   end
 end
