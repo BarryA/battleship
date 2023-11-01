@@ -21,8 +21,8 @@ class ArtificialPlayer
     end
 
     loop do
-      row = ('A'..'D').to_a.sample
-      column = (1..4).to_a.sample
+      row = ('A'..'E').to_a.sample
+      column = (1..5).to_a.sample
       coordinate = "#{row}#{column}"
       unless @previous_shots.include?(coordinate)
         return coordinate

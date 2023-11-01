@@ -12,8 +12,8 @@ class Board
   end
 
   def create_cells
-    ('A'..'D').each do |row|
-      (1..4).each do |column|
+    ('A'..'E').each do |row|
+      (1..5).each do |column|
         cell_key = "#{row}#{column}"
         @cells[cell_key] = Cell.new("#{row}#{column}")
       end
@@ -69,11 +69,11 @@ class Board
   end
 
   def render(fog_of_war = false)
-    board_result = "  1 2 3 4 \n"
+    board_result = "  1 2 3 4 5\n"
 
-    ('A'..'D').each do |row|
+    ('A'..'E').each do |row|
       row_string = "#{row} "
-      (1..4).each do |column|
+      (1..5).each do |column|
         cell_key = "#{row}#{column}"
         row_string += "#{@cells[cell_key].render(fog_of_war)} "
       end

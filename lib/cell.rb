@@ -1,5 +1,6 @@
 require 'pry'
 require './lib/ship'
+require 'colorize'
 
 class Cell
 
@@ -35,11 +36,11 @@ class Cell
 
   def render(fog_of_war = false)
     if fired_upon == true && empty? == true
-      @render = "M"
+      @render = "M".blue
     elsif fired_upon == true && empty? == false && @ship.sunk? == false
-      @render = "H"
+      @render = "H".yellow
     elsif fired_upon == true && empty? == false && @ship.sunk? == true
-      @render = "X"
+      @render = "X".red
     elsif fog_of_war == true && empty? == false
       @render = "S"
     else @render
