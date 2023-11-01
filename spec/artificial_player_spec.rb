@@ -16,7 +16,7 @@ describe ArtificialPlayer do
     ai_player = ArtificialPlayer.new(player_board)
     chosen_coordinate = ai_player.select_coordinate
 
-    expect(player_board.valid_coordinate?("A1")).to be true
+    expect(player_board.valid_coordinates?("A1")).to be true
   end
 
   it 'doesnt select an already shot coordinate' do

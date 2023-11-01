@@ -22,11 +22,11 @@ RSpec.describe Board do
     it "can verify valid coordinates" do
       board = Board.new
 
-      expect(board.valid_coordinate?("A1")).to be true
-      expect(board.valid_coordinate?("D4")).to be true
-      expect(board.valid_coordinate?("A5")).to be false
-      expect(board.valid_coordinate?("E1")).to be false
-      expect(board.valid_coordinate?("A22")).to be false
+      expect(board.valid_coordinates?("A1")).to be true
+      expect(board.valid_coordinates?("D4")).to be true
+      expect(board.valid_coordinates?("A5")).to be false
+      expect(board.valid_coordinates?("E1")).to be false
+      expect(board.valid_coordinates?("A22")).to be false
     end
   end
 
@@ -36,8 +36,8 @@ RSpec.describe Board do
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
-      expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be false
-      expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to be false
+      expect(board.valid_placements?(cruiser, ["A1", "A2"])).to be false
+      expect(board.valid_placements?(submarine, ["A2", "A3", "A4"])).to be false
     end
 
     it "can validate consecutive placements horizontal/vertical" do
@@ -45,12 +45,12 @@ RSpec.describe Board do
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
-      expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to be false
-      expect(board.valid_placement?(submarine, ["A1", "C1"])).to be false
-      expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to be false
-      expect(board.valid_placement?(submarine, ["C1", "B1"])).to be false
-      expect(board.valid_placement?(submarine, ["A1", "B1"])).to be true
-      expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to be true
+      expect(board.valid_placements?(cruiser, ["A1", "A2", "A4"])).to be false
+      expect(board.valid_placements?(submarine, ["A1", "C1"])).to be false
+      expect(board.valid_placements?(cruiser, ["A3", "A2", "A1"])).to be false
+      expect(board.valid_placements?(submarine, ["C1", "B1"])).to be false
+      expect(board.valid_placements?(submarine, ["A1", "B1"])).to be true
+      expect(board.valid_placements?(cruiser, ["A1", "A2", "A3"])).to be true
     end
 
     it "can validate if ship is being placed on occupied tile" do
@@ -58,9 +58,9 @@ RSpec.describe Board do
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
-      board.place(cruiser, ["A1", "A2", "A3"])
+      board.place_ship(cruiser, ["A1", "A2", "A3"])
       
-      expect(board.valid_placement?(submarine, ["A1", "B1"])).to be false
+      expect(board.valid_placements?(submarine, ["A1", "B1"])).to be false
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe Board do
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
-      board.place(cruiser, ["A1", "A2", "A3"])
+      board.place_ship(cruiser, ["A1", "A2", "A3"])
 
       expect(board.cells["A1"].ship).to eq(cruiser)
       expect(board.cells["A2"].ship).to eq(cruiser)
@@ -84,8 +84,8 @@ RSpec.describe Board do
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
-      board.place(cruiser, ["A1", "A2", "A3"])
-      board.place(submarine, ["A1", "B1"])
+      board.place_ship(cruiser, ["A1", "A2", "A3"])
+      board.place_ship(submarine, ["A1", "B1"])
 
       expect(board.cells["A1"].ship).to eq(cruiser)
       expect(board.cells["A2"].ship).to eq(cruiser)
@@ -98,7 +98,7 @@ RSpec.describe Board do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
-      board.place(cruiser, ["A1", "A2", "A3"])
+      board.place_ship(cruiser, ["A1", "A2", "A3"])
 
       expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     end
@@ -107,8 +107,8 @@ RSpec.describe Board do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
-      board.place(cruiser, ["A1", "A2", "A3"])
-      binding.pry
+      board.place_ship(cruiser, ["A1", "A2", "A3"])
+
       expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
     end
   end

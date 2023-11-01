@@ -44,12 +44,27 @@ class Game
     end
   end
 
+  def play_again
+    puts "Want to play again?"
+    input = gets.chomp
+
+    if input == "p"
+      start_game
+    elsif input == "q"
+      puts "Thanks for playing BATTLESHIP"  
+      exit
+    else
+      puts "I'm sorry, I did not understand. Enter p or q"
+      main_menu
+    end
+  end
+
   #Handle user input for ship placements .gets.chomp
   
   def start_game
     loop do
       display_boards
-      #place_computer_ships
+      place_computer_ships
       place_player_ships   
       game_loop
       break
@@ -59,7 +74,7 @@ class Game
   def place_computer_ships
     @computer_ships.each do |ship|
       coordinates = []
-      until @computer_board.valid_placement?(ship, coordinates)
+      until @computer_board.valid_placements?(ship, coordinates)
         row = ('A'..'D').to_a.sample
         column = (1..4).to_a.sample
         orientation = [:horizontal, :vertical].sample
@@ -72,6 +87,7 @@ class Game
       end
       @computer_board.place_ship(ship, coordinates)
     end
+    puts "\n"
     puts "I have laid out my ships on the grid."
   end
 
@@ -79,10 +95,10 @@ class Game
     puts "You now need to lay out your #{@player_ships.length} ships."
     @player_ships.each do |ship|
       puts "Place your #{ship.name}. It has a length of #{ship.length} units:"
-      coordinates = gets.chomp.split
-      until @player_board.valid_placement?(ship, coordinates)
+      coordinates = gets.gsub(',', '').upcase.chomp.split
+      until @player_board.valid_placements?(ship, coordinates)
         puts "Those are invalid coordinates. Please try again:"
-        coordinates = gets.chomp.split
+        coordinates = gets.gsub(',', '').upcase.chomp.split
       end
       @player_board.place_ship(ship, coordinates)
     end
@@ -100,13 +116,17 @@ class Game
       end
     end
     show_winner
-    main_menu
+    play_again
   end
 
   def display_boards
+    puts "\n"
     puts "Computer's Board:"
-    @computer_board.render
+    puts "\n"
+    @computer_board.render(false)
+    puts "\n"
     puts "Player's Board:"
+    puts "\n"
     @player_board.render(true)
   end
 
@@ -114,11 +134,14 @@ class Game
     valid_choice = false
     coordinate = nil
     until valid_choice
+      puts "\n"
       puts "Please enter a coordinate to fire upon"
       coordinate = gets.chomp.upcase
-      if !@computer_board.valid_coordinate?(coordinate)
+      if !@computer_board.valid_coordinates?(coordinate)
+        puts "\n"
         puts "Not a valid coordinate. Please try again:"
       elsif @computer_board.cells[coordinate].fired_upon?
+        puts "\n"
         puts "This coordinate has already been fired upon. Please try again."
       else valid_choice = true
       end
@@ -129,10 +152,13 @@ class Game
 
     if target_cell.empty?
       puts "You missed!"
+      puts "\n"
     elsif target_cell.ship.sunk?
       puts "You sunk my #{target_cell.ship.name}!"
+      puts "\n"
     else
       puts "It's a hit!"
+      puts "\n"
     end
   end
 
@@ -143,10 +169,13 @@ class Game
 
     if target_cell.empty?
       puts "The computer missed!"
+      puts "\n"
     elsif target_cell.ship.sunk?
       puts "The computer sunk your #{target_cell.ship.name}!"
+      puts "\n"
     else
       puts "The computer got a hit!"
+      puts "\n"
     end
 
     hit = !target_cell.empty?
@@ -162,8 +191,13 @@ class Game
   def show_winner
     if @player_ships.all?{ |ship| ship.sunk? }
       puts "You sunk my battleships! You win!"
-    else
+      puts "\n"
+    elsif @computer_ships.all?{ |ship| ship.sunk? }
       puts "I won! You suck!"
+      puts "\n"
+    else 
+      puts "You're not supposed to see this... ERROR"
+      puts "\n"
     end
   end
 
