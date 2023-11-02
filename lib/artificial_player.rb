@@ -47,11 +47,6 @@ class ArtificialPlayer
       "#{row}#{column - 1}", "#{row}#{column + 1}",
       "#{(row.ord - 1).chr}#{column}", "#{(row.ord + 1).chr}#{column}"
     ]
-    valid_coordinates = targeted_coordinates.select { |coordinate| @player_board.valid_coordinates?(coordinate) }
-    new_coordinates = valid_coordinates.reject { |coordinate| @targeted_coordinates_history.include?(coordinate) }
-    
-    @targeted_coordinates_history.merge(new_coordinates)
-
-    new_coordinates
+    targeted_coordinates.select { |coordinate| @player_board.valid_coordinates?(coordinate) }
   end
 end

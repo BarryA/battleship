@@ -77,7 +77,7 @@ RSpec.describe Cell do
       cell = Cell.new("B4")
       cell.fire_upon
 
-      expect(cell.render).to eq("M".blue)
+      expect(cell.render).to eq("M")
     end
 
     it 'can utilize the optional argument and render "S"' do
@@ -96,7 +96,7 @@ RSpec.describe Cell do
       cell.place_ship(cruiser)
       cell.fire_upon
 
-      expect(cell.render).to eq("H".yellow)
+      expect(cell.render).to eq("H")
     end
 
     it 'updates the cell to "X" after the ship is sunk' do
@@ -107,7 +107,7 @@ RSpec.describe Cell do
       cell.fire_upon
       cell.fire_upon
 
-      expect(cell.render).to eq("X".red)
+      expect(cell.render).to eq("X")
     end
   end
 end
